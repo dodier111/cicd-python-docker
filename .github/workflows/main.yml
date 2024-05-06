@@ -20,7 +20,7 @@ jobs:
         run: docker build -t abel098/pythonrun:latest .
 
       - name: Push Docker Image
-        run: docker push your-dockerhub-username/pythonrun:latest
+        run: docker push abel098/pythonrun:latest
 
       - name: SSH into EC2 Instance and Deploy
         uses: appleboy/ssh-action@master
