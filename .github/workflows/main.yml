@@ -3,7 +3,7 @@ name: Deploy to EC2
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   deploy:
@@ -17,10 +17,10 @@ jobs:
         run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
       - name: Build Docker Image
-        run: docker build -t your-dockerhub-username/your-image-name:latest .
+        run: docker build -t abel098/pythonrun:latest .
 
       - name: Push Docker Image
-        run: docker push your-dockerhub-username/your-image-name:latest
+        run: docker push your-dockerhub-username/pythonrun:latest
 
       - name: SSH into EC2 Instance and Deploy
         uses: appleboy/ssh-action@master
@@ -29,7 +29,7 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           script: |
-            docker pull your-dockerhub-username/your-image-name:latest
-            docker stop your-container-name || true
-            docker rm your-container-name || true
-            docker run -d --name your-container-name -p 80:5000 your-dockerhub-username/your-image-name:latest
+            docker pull abel098/pythonrun:latest
+            docker stop pythonrun || true
+            docker rm pythonrun || true
+            docker run -d --name pythonrun -p 80:5000 abel098/pythonrun:latest
